@@ -2,8 +2,27 @@ import { Request, Response } from "express";
 import Pokemon from "../models/pokemon";
 
 // POST
-export const createPokemon = (req: Request, res: Response) => {
-  res.send("Crete a new pokemon");
+export const createPokemon = async (req: Request, res: Response) => {
+  if (
+    !req.body.name ||
+    !req.body.pokedexNumber ||
+    !req.body.img ||
+    !req.body.types
+  ) {
+    return res.status(400).json({
+      msg:
+        "Please send pokemon name, pokedex number, pokemon image and pokemon types",
+    });
+  }
+
+  const pokemon = await Pokemon.findOne({ name: req.body.name });
+  if (pokemon)
+    return res.status(400).json({ msg: "The pokemon already exists" });
+
+  const newPokemon = new Pokemon(req.body);
+  newPokemon.save();
+
+  return res.status(201).send(newPokemon);
 };
 
 // PUT
