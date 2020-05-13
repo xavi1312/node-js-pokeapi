@@ -57,8 +57,13 @@ export const deletePokemon = async (req: Request, res: Response) => {
 };
 
 // GET
-export const getPokemons = (req: Request, res: Response) => {
-  res.send("Get all pokemons");
+export const getPokemons = async (req: Request, res: Response) => {
+  try {
+    const pokemons = await Pokemon.find({});
+    return res.status(200).json(pokemons);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 };
 export const getPokemon = async (req: Request, res: Response) => {
   try {

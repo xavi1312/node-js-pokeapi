@@ -21,6 +21,6 @@ pokemonRoutes.delete("/pokemon/:id", deletePokemon);
 // GET
 pokemonRoutes.get("/pokemon", getPokemons);
 pokemonRoutes.get("/pokemon/:id", getPokemon);
-pokemonRoutes.get("/pokemon/limit/:id", getPokemonsLimit);
+pokemonRoutes.get("/pokemon/limit/:limit", getPokemonsLimit);
 
 export default pokemonRoutes;
