@@ -14,13 +14,20 @@ export const createPokemon = async (req: Request, res: Response) => {
         "Please send pokemon name, pokedex number, pokemon image and pokemon types",
     });
   }
-
-  const pokemon = await Pokemon.findOne({ name: req.body.name });
-  if (pokemon)
-    return res.status(400).json({ msg: "The pokemon already exists" });
+  try {
+    const pokemon = await Pokemon.findOne({ name: req.body.name });
+    if (pokemon)
+      return res.status(400).json({ msg: "The pokemon already exists" });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 
   const newPokemon = new Pokemon(req.body);
-  newPokemon.save();
+  try {
+    newPokemon.save();
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 
   return res.status(201).send(newPokemon);
 };
@@ -31,8 +38,21 @@ export const updatePokemon = (req: Request, res: Response) => {
 };
 
 // DELETE
-export const deletePokemon = (req: Request, res: Response) => {
-  res.send("Delete specific pokemon");
+export const deletePokemon = async (req: Request, res: Response) => {
+  try {
+    const pokemon = await Pokemon.findById(req.params.id);
+    if (!pokemon) return res.status(400).json("The pokemon does not exist");
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+
+  try {
+    await Pokemon.deleteOne({ _id: req.params.id });
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+
+  return res.send("Delete specific pokemon");
 };
 
 // GET

@@ -16,7 +16,7 @@ pokemonRoutes.post("/pokemon", createPokemon);
 pokemonRoutes.put("/pokemon", updatePokemon);
 
 // DELETE
-pokemonRoutes.delete("/pokemon", deletePokemon);
+pokemonRoutes.delete("/pokemon/:id", deletePokemon);
 
 // GET
 pokemonRoutes.get("/pokemon", getPokemons);
