@@ -41,7 +41,8 @@ export const updatePokemon = (req: Request, res: Response) => {
 export const deletePokemon = async (req: Request, res: Response) => {
   try {
     const pokemon = await Pokemon.findById(req.params.id);
-    if (!pokemon) return res.status(400).json("The pokemon does not exist");
+    if (!pokemon)
+      return res.status(400).json({ msg: "The pokemon does not exist" });
   } catch (error) {
     return res.status(400).json(error);
   }
@@ -52,15 +53,23 @@ export const deletePokemon = async (req: Request, res: Response) => {
     return res.status(400).json(error);
   }
 
-  return res.send("Delete specific pokemon");
+  return res.status(200).send({ msg: "Pokemon deleted satisfactorily" });
 };
 
 // GET
 export const getPokemons = (req: Request, res: Response) => {
   res.send("Get all pokemons");
 };
-export const getPokemon = (req: Request, res: Response) => {
-  res.send("Get specific pokemon");
+export const getPokemon = async (req: Request, res: Response) => {
+  try {
+    const pokemon = await Pokemon.findById(req.params.id);
+    if (!pokemon)
+      return res.status(400).json({ msg: "The pokemon does not exist" });
+
+    return res.status(200).send(pokemon);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 };
 export const getPokemonsLimit = (req: Request, res: Response) => {
   res.send("Get multiple pokemon (limit) pokemons");
