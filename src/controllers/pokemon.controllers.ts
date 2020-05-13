@@ -33,8 +33,29 @@ export const createPokemon = async (req: Request, res: Response) => {
 };
 
 // PUT
-export const updatePokemon = (req: Request, res: Response) => {
-  res.send("Update specific pokemon");
+export const updatePokemon = async (req: Request, res: Response) => {
+  if (
+    !req.body.name ||
+    !req.body.pokedexNumber ||
+    !req.body.img ||
+    !req.body.types
+  ) {
+    return res.status(400).json({
+      msg:
+        "Please send pokemon name, pokedex number, pokemon image and pokemon types",
+    });
+  }
+
+  try {
+    const pokemonUpdated = await Pokemon.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    return res.status(200).json(pokemonUpdated);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 };
 
 // DELETE

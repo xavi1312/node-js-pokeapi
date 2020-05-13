@@ -13,7 +13,7 @@ import {
 pokemonRoutes.post("/pokemon", createPokemon);
 
 // PUT
-pokemonRoutes.put("/pokemon", updatePokemon);
+pokemonRoutes.put("/pokemon/:id", updatePokemon);
 
 // DELETE
 pokemonRoutes.delete("/pokemon/:id", deletePokemon);
