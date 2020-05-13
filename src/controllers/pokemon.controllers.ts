@@ -47,8 +47,8 @@ export const updatePokemon = async (req: Request, res: Response) => {
   }
 
   try {
-    const pokemonUpdated = await Pokemon.findByIdAndUpdate(
-      req.params.id,
+    const pokemonUpdated = await Pokemon.findOneAndUpdate(
+      { _id: req.params.id },
       req.body,
       { new: true }
     );

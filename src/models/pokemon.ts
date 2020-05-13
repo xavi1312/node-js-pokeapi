@@ -7,6 +7,7 @@ interface IPokemon extends Document {
   types: Array<String>;
   evolution?: Number;
   involution?: Number;
+  _update?: any;
 }
 
 const pokemonSchema = new Schema({
@@ -41,6 +42,19 @@ const pokemonSchema = new Schema({
     required: false,
     trim: true,
   },
+});
+
+pokemonSchema.pre<IPokemon>("save", function (next) {
+  const pokemon = this;
+  if (!pokemon.isModified("types")) return next();
+  pokemon.types = pokemon.types.map((t: any) => t.trim());
+  next();
+});
+
+pokemonSchema.pre<IPokemon>("findOneAndUpdate", function (next) {
+  const pokemon = this;
+  pokemon._update.types = pokemon._update.types.map((t: any) => t.trim());
+  next();
 });
 
 export default model<IPokemon>("Pokemon", pokemonSchema);
