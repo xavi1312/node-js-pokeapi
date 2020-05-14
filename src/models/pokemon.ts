@@ -1,6 +1,6 @@
 import { model, Schema, Document } from "mongoose";
 
-interface IPokemon extends Document {
+export interface IPokemon extends Document {
   name: String;
   pokedexNumber: String;
   img: String;

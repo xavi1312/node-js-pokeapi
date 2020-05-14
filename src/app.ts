@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 import pokemonRoutes from "./routes/pokemon.routes";
 
 // initialitations
@@ -10,6 +11,7 @@ app.set("port", process.env.PORT || 3000);
 
 // middlewares
 app.use(morgan("dev"));
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
